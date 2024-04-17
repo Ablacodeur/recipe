@@ -9,16 +9,40 @@ import { CardActionArea } from '@mui/material';
 
 export default function CardShema({name, thumb}) {
   return (
-    <Card sx={{ maxWidth: 345 }}>
-      <CardActionArea>
+    <Card sx={{ 
+      width: 300 ,
+
+    
+    }}>
+      <CardActionArea sx={{ 
+
+       }}>
         <CardMedia
           component="img"
           height="140"
           image={thumb}
           alt="green iguana"
+          sx={{ 
+            objectFit:'cover',
+            width:'300px',
+
+           }}
+          
         />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
+        <CardContent sx={{ 
+            padding:'15px  1px  15px 2px ',
+         }}>
+          <Typography  variant="p" 
+           component="div"
+           sx={{ 
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              display: "-webkit-box",
+              WebkitLineClamp: 1,
+              WebkitBoxOrient: "vertical",
+
+            }}
+           >
             {name}
           </Typography>
         </CardContent>

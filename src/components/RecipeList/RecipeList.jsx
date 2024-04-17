@@ -39,8 +39,8 @@ export default function RecipeList() {
   return (
     <Box sx={{ backgroundColor: 'black.main' }}>
       <Container>
-        <Stack sx={{ display: 'flex', flexDirection: 'row' }}>
-          <Box flex={0.4}>
+        <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent:'space-around' }}>
+          <Box >
             {data.map((category, index) => {
               return (
                 <Category
@@ -54,7 +54,10 @@ export default function RecipeList() {
             })}
           </Box>
 
-          <Box flex={1.6}>
+          <Box  sx={{ 
+             marginLeft:'4%'
+
+           }} >
             <Grid container spacing={{ xs: 2, md: 6 }}>
               {menu.length > 0 &&
                 menu.map((recipe, index) => (
@@ -69,7 +72,7 @@ export default function RecipeList() {
                       width: '100%',
                       display: 'flex',
                       justifyContent: 'center',
-                      marginTop: { xs: '25%', md: '5%' },
+                      marginTop: { xs: '20%', md: '5%' },
                     }}
                   >
                     <CardShema
