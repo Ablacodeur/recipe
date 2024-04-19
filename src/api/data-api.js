@@ -10,4 +10,8 @@ export class DataAPI{
     static async filterByCategory(category){
       return(await axios.get(`${BASE_URL}/filter.php?c=${category}`)).data.meals;
     }
+    static async filterByName(meal){
+      return(await axios.get(`${BASE_URL}/search.php?s=${meal}`)).data.meals;
+    }
+  
 }

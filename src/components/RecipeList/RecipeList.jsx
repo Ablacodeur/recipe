@@ -5,13 +5,17 @@ import { Stack } from '@mui/system';
 import Category from '../Category/Category';
 import { DataAPI } from '../../api/data-api';
 import { useEffect, useState } from 'react';
+import { SearchBar } from '../SearchBar/SearchBar';
+import SelectedCategoryInput from '../SelectedCategoryInput/SelectedCategoryInput';
 
 export default function RecipeList() {
+  const [searchText, setSearchText]= useState('');
+  const [searchedMeal, setSearchedMeal]= useState([]);
+
   const data = useSelector((store) => store.RECIPE.recipeList);
   const [menu, setMenu] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState('');
+  const [selectedCategory, setSelectedCategory] = useState('Dessert');
 
-  // Fonction pour gérer le clic sur une catégorie
   const handleCategoryClick = async (category) => {
     try {
       setSelectedCategory(category);
@@ -21,9 +25,14 @@ export default function RecipeList() {
   };
 
   useEffect(() => {
-    // fetchMenu au chargement initial
     fetchMenu();
-  }, [selectedCategory]); // Mettre selectedCategory dans les dépendances
+  }, [selectedCategory]);
+
+  useEffect(() => {
+    fetchMeal();
+  }, [searchText]);
+
+
 
   async function fetchMenu() {
     try {
@@ -35,36 +44,73 @@ export default function RecipeList() {
       console.error('Error fetching data:', error);
     }
   }
+  async function fetchMeal() {
+    try {
+      if (searchText) {
+        const meal = await DataAPI.filterByName(searchText);
+        // Utilisation de la condition ternaire pour mettre à jour l'état en fonction du résultat de la recherche
+        console.log(searchText.length);
+        meal.length === 0 ? console.log("Aucun repas trouvé pour la recherche:", searchText) : setSearchedMeal(meal);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
+  function handleChange(e){
+    setSearchText(e.target.value)
+    console.log(searchText);
+};
+
+
 
   return (
     <Box sx={{ backgroundColor: 'black.main' }}>
       <Container>
-        <Stack sx={{ display: 'flex', flexDirection: 'row', justifyContent:'space-around' }}>
-          <Box >
-            {data.map((category, index) => {
-              return (
-                <Category
-                  key={index}
-                  categories={category.strCategory}
-                  image={category.strCategoryThumb}
-                  // Passer handleCategoryClick en tant que prop
-                  onCategoryClick={handleCategoryClick}
-                />
-              );
-            })}
-          </Box>
+        <Stack
+          sx={{
+            display: 'flex',
+            flexDirection: { xs: "column", md: "row" },
+            justifyContent: 'space-around',
+            marginTop: { xs: '10%', md: '2%' },
+          }}
+        >
+          <Grid item xs={12} md={4} sx={{  maxWidth: '500px' }}>
+            <Box sx={{ marginBottom:'15px' }}>
+              <h4>Categories</h4>
+              <Grid container spacing={0.5}>
+                {data.map((category, index) => (
+                  <Grid item xs={6} md={12} key={index}>
+                    <Category
+                      categories={category.strCategory}
+                      image={category.strCategoryThumb}
+                      onCategoryClick={handleCategoryClick}
+                    />
+                  </Grid>
+                ))}
+              </Grid>
+            </Box>
+          </Grid>
 
-          <Box  sx={{ 
-             marginLeft:'4%'
-
-           }} >
-            <Grid container spacing={{ xs: 2, md: 6 }}>
-              {menu.length > 0 &&
-                menu.map((recipe, index) => (
+          <Grid item xs={12} md={8} >
+            <Box sx={{
+               marginBottom: '7%', marginLeft:{md:'15px'}}}>
+              <Stack
+                display='flex'
+                justifyContent='space-between'
+                flexDirection='row'
+              >
+                <SearchBar onTextChange={handleChange} />
+                <SelectedCategoryInput />
+              </Stack>
+            </Box>
+            <Box sx={{marginLeft:{md:'15px'} }}>
+            <Grid container spacing={{ xs: 2, md: 6 }} sx={{minWidth:'50vw'}}>
+                {(searchText.length>0 && searchedMeal.length > 0 ? searchedMeal : menu).map((recipe, index) => (
                   <Grid
                     item
                     xs={12}
-                    sm={6}
+                    sm={12}
+                    md={6}
                     lg={4}
                     key={index}
                     sx={{
@@ -72,17 +118,19 @@ export default function RecipeList() {
                       width: '100%',
                       display: 'flex',
                       justifyContent: 'center',
-                      marginTop: { xs: '20%', md: '5%' },
+                      gap:'20',
                     }}
-                  >
-                    <CardShema
-                      name={recipe.strMeal} // Assurez-vous que ce sont les bonnes clés
-                      thumb={recipe.strMealThumb} // Assurez-vous que ce sont les bonnes clés
+                  >                   
+                   <CardShema 
+                      name={recipe.strMeal}
+                      thumb={recipe.strMealThumb}
                     />
                   </Grid>
                 ))}
+                
             </Grid>
-          </Box>
+            </Box>
+          </Grid>
         </Stack>
       </Container>
     </Box>

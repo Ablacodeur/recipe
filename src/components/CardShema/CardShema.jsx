@@ -2,35 +2,39 @@ import * as React from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
-import heroImage from "../../assets/images/hero-imagehc.jpg"
-
 import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
+import { Box } from '@mui/system';
 
 export default function CardShema({name, thumb}) {
   return (
     <Card sx={{ 
-      width: 300 ,
+        borderRadius:'12px',
+        backgroundColor:'#394150',
+        color:"#E5E7EB",
+        width:{xs:'100%'},
+        minWidth:"220px"
 
-    
     }}>
       <CardActionArea sx={{ 
-
+       }}>
+      <Box sx={{ 
+        padding:'10px',
        }}>
         <CardMedia
           component="img"
-          height="140"
+          height="180"
           image={thumb}
           alt="green iguana"
           sx={{ 
             objectFit:'cover',
-            width:'300px',
-
+            borderRadius:'10px',
            }}
           
         />
         <CardContent sx={{ 
-            padding:'15px  1px  15px 2px ',
+            padding:'8px  1px  0px 2px ',
+            height:"2vh"
          }}>
           <Typography  variant="p" 
            component="div"
@@ -46,6 +50,7 @@ export default function CardShema({name, thumb}) {
             {name}
           </Typography>
         </CardContent>
+        </Box>
       </CardActionArea>
     </Card>
   );

@@ -13,7 +13,7 @@ function App() {
   async function fetchRecipes(){
     try{
         const recipe = await DataAPI.fetchRecipe();
-        dispatch(setRecipe(recipe));
+        dispatch(setRecipe(recipe.slice(0,6)));
         }
         catch (error) {
             console.error('Error fetching data:', error);
@@ -25,7 +25,7 @@ function App() {
 
   return (
     <div  className={s.container}>
-    <Hero />
+    <Hero  />
     <Outlet></Outlet>
   </div>
 
