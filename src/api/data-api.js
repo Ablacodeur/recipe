@@ -5,7 +5,6 @@ const BASE_URL = 'https://www.themealdb.com/api/json/v1/1'
 export class DataAPI{
     static async fetchRecipe(){
       return(await axios.get(`${BASE_URL}/categories.php`)).data.categories
-       
     }
     static async filterByCategory(category){
       return(await axios.get(`${BASE_URL}/filter.php?c=${category}`)).data.meals;
@@ -13,5 +12,13 @@ export class DataAPI{
     static async filterByName(meal){
       return(await axios.get(`${BASE_URL}/search.php?s=${meal}`)).data.meals;
     }
+    static async filterByArea(area){
+      return(await axios.get(`${BASE_URL}/filter.php?a=${area}`)).data.meals;
+    }
+    static async fetchAreaList(){
+      return(await axios.get(`${BASE_URL}/list.php?a=list`)).data.meals
+    }
+
+
   
 }

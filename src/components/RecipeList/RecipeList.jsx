@@ -16,13 +16,22 @@ export default function RecipeList() {
   const [menu, setMenu] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('Dessert');
 
-  const handleCategoryClick = async (category) => {
-    try {
-      setSelectedCategory(category);
-    } catch (error) {
-      console.error('Error setting category:', error);
+    // État pour stocker la valeur sélectionn
+    const [selectedValue, setSelectedValue] = useState('');
+
+    // Fonction pour gérer le changement de valeur selectionée
+    function onSelectArea(event){
+      setSelectedValue(event.target.value);
+      console.log(selectedValue);
     }
-  };
+
+    const handleCategoryClick = async (category) => {
+      try {
+        setSelectedCategory(category);
+      } catch (error) {
+        console.error('Error setting category:', error);
+      }
+    };
 
   useEffect(() => {
     fetchMenu();
@@ -32,7 +41,22 @@ export default function RecipeList() {
     fetchMeal();
   }, [searchText]);
 
+  useEffect(() => {
+    fetchByArea();
+  }, [selectedValue]);
 
+
+
+  async function fetchByArea() {
+    try {
+      if (selectedValue) {
+        const area_recipes = await DataAPI.filterByArea(selectedValue);
+        setMenu(area_recipes); // Mettez à jour l'état menu avec les recettes de la zone sélectionnée
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
 
   async function fetchMenu() {
     try {
@@ -56,10 +80,11 @@ export default function RecipeList() {
       console.error('Error fetching data:', error);
     }
   }
+
   function handleChange(e){
     setSearchText(e.target.value)
     console.log(searchText);
-};
+  };
 
 
 
@@ -100,8 +125,8 @@ export default function RecipeList() {
                 flexDirection='row'
               >
                 <SearchBar onTextChange={handleChange} />
-                <SelectedCategoryInput />
-              </Stack>
+                <SelectedCategoryInput handleSelectChange={onSelectArea} selectValue={selectedValue} />
+              </Stack> 
             </Box>
             <Box sx={{marginLeft:{md:'15px'} }}>
             <Grid container spacing={{ xs: 2, md: 6 }} sx={{minWidth:'50vw'}}>
