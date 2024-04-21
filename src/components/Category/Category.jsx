@@ -25,6 +25,12 @@ export default function Category({ categories, image, onCategoryClick }) {
       sx={{
         width: '100%',
         maxWidth: '360px',
+        fontFamily:"Playfair Display",
+        fontOpticalSizing:'auto',
+        fontSize:'nnormal'
+
+
+
       }}
     >
       <ListItemButton

@@ -8,7 +8,6 @@ import { createSlice } from "@reduxjs/toolkit";
         setRecipe:(currentSlice,action)=>{
             currentSlice.recipeList = action.payload
         }
-
     },
  });
 

@@ -6,18 +6,18 @@ import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import { Box } from '@mui/system';
 
-export default function CardShema({name, thumb}) {
+export default function CardShema({name, thumb,onClick}) {
   return (
     <Card sx={{ 
         borderRadius:'12px',
         backgroundColor:'#394150',
         color:"#E5E7EB",
         width:{xs:'100%'},
-        minWidth:"220px"
-
-    }}>
-      <CardActionArea sx={{ 
-       }}>
+        minWidth:"220px",
+      }}
+    
+    >
+      <CardActionArea onClick={onClick} >
       <Box sx={{ 
         padding:'10px',
        }}>

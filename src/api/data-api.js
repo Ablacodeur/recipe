@@ -18,6 +18,10 @@ export class DataAPI{
     static async fetchAreaList(){
       return(await axios.get(`${BASE_URL}/list.php?a=list`)).data.meals
     }
+    static async filterById(id){
+      return(await axios.get(`${BASE_URL}/lookup.php?i=${id}`)).data.meals[0];
+    }
+
 
 
   
