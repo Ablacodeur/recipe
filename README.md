@@ -1,4 +1,4 @@
-# Space tourism website solution
+# RECIPE
 
 This is a solution to the [Property Listinge on devchallenges](https://devchallenges.io/). 
 
